@@ -4,6 +4,8 @@ export class Favoritos{
     constructor(root){
         this.root = document.querySelector(root)
         this.load()
+
+        
     }
 
     load(){
@@ -19,7 +21,11 @@ export class Favoritos{
     async add(username){
         try{
 
-            const artist = await MusicUser.Busca(username)
+            const min = username.toLowerCase().replace(/\s+/g, '-')
+
+            const artist = await MusicUser.Busca(min)
+            
+            
 
             if(artist.artist.desc === undefined){
                 throw new Error("Artista não encontrado!")
@@ -75,7 +81,7 @@ export class FavoritosVisto extends Favoritos{
         this.entries.forEach(user => {
             const row = this.createRow()
 
-            row.querySelector('.user img').src = `https://www.vagalume.com.br/${user.artist.desc.toLowerCase()}/images/profile.jpg`;
+            row.querySelector('.user img').src = `https://www.vagalume.com.br/${user.artist.desc.toLowerCase().replace(/\s+/g, '-')}/images/profile.jpg`;
             row.querySelector('.user img').alt = `Imagem de ${user.artist.desc}`
             row.querySelector(".user a").href = `https://www.vagalume.com.br/${user.artist.desc}/`
             row.querySelector(".user span").textContent = user.artist.desc
